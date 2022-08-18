@@ -6,9 +6,7 @@ import (
 	"gorm.io/gorm/schema"
 )
 
-var DB *gorm.DB
-
-func ConnectDB() {
+func ConnectDB() *gorm.DB {
 	host := "localhost"
 	username := "postgres"
 	password := "masukdb"
@@ -17,7 +15,7 @@ func ConnectDB() {
 
 	dsn := "host=" + host + " user=" + username + " password=" + password + " dbname=" + database + " port=" + port + " sslmode=disable TimeZone=Asia/Jakarta"
 
-	_, err := gorm.Open(postgres.Open(dsn), &gorm.Config{
+	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{
 		NamingStrategy: schema.NamingStrategy{
 			TablePrefix: "public.",
 		},
@@ -26,4 +24,6 @@ func ConnectDB() {
 	if err != nil {
 		panic("Can't connect database")
 	}
+
+	return db
 }
